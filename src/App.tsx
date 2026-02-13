@@ -209,11 +209,13 @@ function App() {
                 e.stopPropagation();
                 moveNoButton();
               }}
-              className="bg-slate-600 hover:bg-slate-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 absolute"
-              style={{
-                transform: `translate(${noPosition.x}px, ${noPosition.y}px)`,
-                transition: noPosition.x === 0 && noPosition.y === 0 ? 'none' : 'transform 0.2s ease-out',
-              }}
+              className={`bg-slate-600 hover:bg-slate-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 ${noClickCount > 0 ? 'absolute' : ''}`}
+              style={noClickCount > 0 ? {
+                left: '50%',
+                top: '50%',
+                transform: `translate(-50%, -50%) translate(${noPosition.x}px, ${noPosition.y}px)`,
+                transition: 'transform 0.2s ease-out',
+              } : undefined}
             >
               {noClickCount > 0 && noClickCount <= noMessages.length
                 ? noMessages[noClickCount - 1]
