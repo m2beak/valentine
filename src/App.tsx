@@ -11,16 +11,16 @@ function App() {
 
   const noMessages = [
     // TODO: CUSTOMIZE ME - Change these messages to whatever you want!
-    "Nice try! 😏",
-    "Too slow! 💨",
-    "Missed me! 🎯",
-    "Not today! 🚫",
-    "Keep trying! 😄",
-    "Almost got it! 👀",
-    "Nope! 🙅‍♀️",
-    "Catch me if you can! 🏃‍♂️",
-    "You're persistent! 💪",
-    "Just say YES! ❤️",
+    "Seriously ?",
+    "Good Luck Pressing me",
+    "Miss me ?",
+    "Stubborn As always",
+    "Love seeing you try",
+    "You almost did it",
+    "Hell No",
+    "Better Catch me",
+    "Stop Insisting",
+    "JUST FUCKING SAY YES",
   ];
 
   const moveNoButton = () => {
@@ -103,13 +103,13 @@ function App() {
             <Sparkles className="w-20 h-20 text-yellow-300 mx-auto animate-bounce" />
 
             {/* TODO: CUSTOMIZE ME - Add your own celebration GIF or picture here! */}
-            {/* <img src="/celebration.gif" alt="Celebration" className="w-48 h-48 mx-auto mt-4 rounded-lg object-cover" /> */}
+            <img src="/herheart.svg" alt="Celebration" className="w-48 h-48 mx-auto mt-4 rounded-lg object-cover" />
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
-            She Said YES! 🎉
+            FINALLY YOU SAID YES
           </h1>
           <p className="text-xl md:text-2xl text-rose-100 mb-8">
-            Lanya, you've made me the happiest person alive!
+            7ayati , You just made me the happiest person alive
           </p>
           <div className="flex justify-center gap-4">
             <Heart className="w-16 h-16 text-rose-300 animate-pulse" fill="currentColor" />
@@ -117,7 +117,7 @@ function App() {
             <Heart className="w-16 h-16 text-rose-300 animate-pulse" style={{ animationDelay: '0.4s' }} fill="currentColor" />
           </div>
           <p className="mt-12 text-rose-200 text-lg">
-            Happy Valentine's Day! ❤️
+            I love you , my sweet valentine
           </p>
         </div>
       </div>
@@ -153,7 +153,7 @@ function App() {
             <div className="relative inline-block">
               {/* TODO: CUSTOMIZE ME - Change src="/heart.svg" to your own image (e.g., "/my-photo.jpg") */}
               <img
-                src="/heart.svg"
+                src="/myheart.jpg"
                 alt="Heart"
                 className="w-24 h-24 mx-auto animate-heartbeat object-contain"
               />
@@ -208,13 +208,13 @@ function App() {
           {/* Hint text */}
           {noClickCount === 0 && (
             <p className="mt-8 text-rose-300/60 text-sm">
-              Go ahead, try saying no... if you can! 😏
+              Go ahead, try saying no.
             </p>
           )}
 
           {noClickCount > 0 && (
             <p className="mt-8 text-rose-300/80 text-sm animate-fade-in">
-              Attempts to say no: {noClickCount} | The YES button is growing... 👀
+              Attempts to make me mad: {noClickCount} | The YES button is growing , you cant escape
             </p>
           )}
         </div>
