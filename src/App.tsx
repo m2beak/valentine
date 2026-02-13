@@ -1,0 +1,303 @@
+import { useState, useEffect, useRef } from 'react';
+import { Heart, Sparkles, ArrowRight } from 'lucide-react';
+
+function App() {
+  const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [noClickCount, setNoClickCount] = useState(0);
+  const [buttonSize, setButtonSize] = useState(1);
+  const noButtonRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const noMessages = [
+    "Nice try! 😏",
+    "Too slow! 💨",
+    "Missed me! 🎯",
+    "Not today! 🚫",
+    "Keep trying! 😄",
+    "Almost got it! 👀",
+    "Nope! 🙅‍♀️",
+    "Catch me if you can! 🏃‍♂️",
+    "You're persistent! 💪",
+    "Just say YES! ❤️",
+  ];
+
+  const moveNoButton = () => {
+    if (!containerRef.current) return;
+
+    const container = containerRef.current.getBoundingClientRect();
+    const buttonWidth = 120;
+    const buttonHeight = 50;
+
+    // Calculate safe area (keep button within container)
+    const maxX = container.width - buttonWidth - 40;
+    const maxY = container.height - buttonHeight - 40;
+
+    // Generate random position
+    const newX = Math.random() * maxX - maxX / 2;
+    const newY = Math.random() * maxY - maxY / 2;
+
+    setNoPosition({ x: newX, y: newY });
+    setNoClickCount(prev => prev + 1);
+
+    // Make YES button slightly bigger each time
+    setButtonSize(prev => Math.min(prev + 0.15, 1.8));
+  };
+
+  const handleYesClick = () => {
+    setShowCelebration(true);
+  };
+
+  // Floating hearts animation
+  const [hearts, setHearts] = useState<{ id: number; x: number; delay: number; duration: number }[]>([]);
+
+  useEffect(() => {
+    const newHearts = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: 4 + Math.random() * 4,
+    }));
+    setHearts(newHearts);
+  }, []);
+
+  if (showCelebration) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-rose-900 via-red-800 to-rose-700 flex items-center justify-center p-4 overflow-hidden relative">
+        {/* Floating hearts background */}
+        {hearts.map((heart) => (
+          <div
+            key={heart.id}
+            className="absolute text-rose-300/30 animate-float"
+            style={{
+              left: `${heart.x}%`,
+              bottom: '-50px',
+              animationDelay: `${heart.delay}s`,
+              animationDuration: `${heart.duration}s`,
+            }}
+          >
+            <Heart size={24 + Math.random() * 32} fill="currentColor" />
+          </div>
+        ))}
+
+        {/* Confetti effect */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 rounded-full animate-confetti"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `-10px`,
+                backgroundColor: ['#fbbf24', '#f87171', '#fbbf24', '#fca5a5', '#fde047'][Math.floor(Math.random() * 5)],
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${3 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="text-center z-10 animate-fade-in">
+          <div className="mb-8">
+            <Sparkles className="w-20 h-20 text-yellow-300 mx-auto animate-bounce" />
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+            She Said YES! 🎉
+          </h1>
+          <p className="text-xl md:text-2xl text-rose-100 mb-8">
+            Lanya, you've made me the happiest person alive!
+          </p>
+          <div className="flex justify-center gap-4">
+            <Heart className="w-16 h-16 text-rose-300 animate-pulse" fill="currentColor" />
+            <Heart className="w-20 h-20 text-rose-200 animate-pulse" style={{ animationDelay: '0.2s' }} fill="currentColor" />
+            <Heart className="w-16 h-16 text-rose-300 animate-pulse" style={{ animationDelay: '0.4s' }} fill="currentColor" />
+          </div>
+          <p className="mt-12 text-rose-200 text-lg">
+            Happy Valentine's Day! ❤️
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-gradient-to-br from-slate-900 via-rose-950 to-slate-900 flex items-center justify-center p-4 overflow-hidden relative"
+    >
+      {/* Floating hearts background */}
+      {hearts.map((heart) => (
+        <div
+          key={heart.id}
+          className="absolute text-rose-500/20 animate-float"
+          style={{
+            left: `${heart.x}%`,
+            bottom: '-50px',
+            animationDelay: `${heart.delay}s`,
+            animationDuration: `${heart.duration}s`,
+          }}
+        >
+          <Heart size={20 + Math.random() * 24} fill="currentColor" />
+        </div>
+      ))}
+
+      {/* Main card */}
+      <div className="relative z-10 w-full max-w-md">
+        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 shadow-2xl border border-white/20 text-center">
+          {/* Header with heart */}
+          <div className="mb-8">
+            <div className="relative inline-block">
+              <img
+                src="/heart.svg"
+                alt="Heart"
+                className="w-24 h-24 mx-auto animate-heartbeat object-contain"
+              />
+              <Sparkles className="w-6 h-6 text-yellow-400 absolute -top-2 -right-2 animate-pulse" />
+            </div>
+          </div>
+
+          {/* Question */}
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-md">
+            Hey Lanya!
+          </h1>
+          <p className="text-lg md:text-xl text-rose-100 mb-10 leading-relaxed">
+            Will you be my Valentine?
+          </p>
+
+          {/* Buttons container */}
+          <div className="relative h-32 flex items-center justify-center gap-6">
+            {/* YES Button - grows with each no attempt */}
+            <button
+              onClick={handleYesClick}
+              className="bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white font-bold py-4 px-10 rounded-full shadow-lg transform transition-all duration-300 hover:scale-110 hover:shadow-rose-500/50 flex items-center gap-2 group"
+              style={{
+                transform: `scale(${buttonSize})`,
+                transition: 'transform 0.3s ease-out'
+              }}
+            >
+              YES
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+
+            {/* NO Button - moves away */}
+            <button
+              ref={noButtonRef}
+              onMouseEnter={moveNoButton}
+              onClick={moveNoButton}
+              onTouchStart={moveNoButton}
+              className="bg-slate-600 hover:bg-slate-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 absolute"
+              style={{
+                transform: `translate(${noPosition.x}px, ${noPosition.y}px)`,
+                transition: noPosition.x === 0 && noPosition.y === 0 ? 'none' : 'transform 0.2s ease-out',
+              }}
+            >
+              {noClickCount > 0 && noClickCount <= noMessages.length
+                ? noMessages[noClickCount - 1]
+                : noClickCount > noMessages.length
+                  ? "Just YES! 😤"
+                  : "NO"
+              }
+            </button>
+          </div>
+
+          {/* Hint text */}
+          {noClickCount === 0 && (
+            <p className="mt-8 text-rose-300/60 text-sm">
+              Go ahead, try saying no... if you can! 😏
+            </p>
+          )}
+
+          {noClickCount > 0 && (
+            <p className="mt-8 text-rose-300/80 text-sm animate-fade-in">
+              Attempts to say no: {noClickCount} | The YES button is growing... 👀
+            </p>
+          )}
+        </div>
+
+        {/* Bottom decoration */}
+        <div className="flex justify-center gap-3 mt-6">
+          <Heart className="w-5 h-5 text-rose-400/50" fill="currentColor" />
+          <Heart className="w-4 h-4 text-rose-400/30" fill="currentColor" />
+          <Heart className="w-5 h-5 text-rose-400/50" fill="currentColor" />
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes float {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-100vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes heartbeat {
+          0%, 100% {
+            transform: scale(1);
+          }
+          14% {
+            transform: scale(1.1);
+          }
+          28% {
+            transform: scale(1);
+          }
+          42% {
+            transform: scale(1.1);
+          }
+          70% {
+            transform: scale(1);
+          }
+        }
+        
+        @keyframes confetti {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-float {
+          animation: float linear infinite;
+        }
+        
+        .animate-heartbeat {
+          animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        .animate-confetti {
+          animation: confetti linear infinite;
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.5s ease-out;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default App;
