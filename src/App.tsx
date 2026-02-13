@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Heart, Sparkles, ArrowRight } from 'lucide-react';
+import { Heart, ArrowRight } from 'lucide-react';
 
 function App() {
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
@@ -100,8 +100,6 @@ function App() {
 
         <div className="text-center z-10 animate-fade-in">
           <div className="mb-8">
-            <Sparkles className="w-20 h-20 text-yellow-300 mx-auto animate-bounce" />
-
             {/* TODO: CUSTOMIZE ME - Add your own celebration GIF or picture here! */}
             <img src="/herheart.svg" alt="Celebration" className="w-48 h-48 mx-auto mt-4 rounded-lg object-cover" />
           </div>
@@ -157,13 +155,12 @@ function App() {
                 alt="Heart"
                 className="w-24 h-24 mx-auto animate-heartbeat object-contain"
               />
-              <Sparkles className="w-6 h-6 text-yellow-400 absolute -top-2 -right-2 animate-pulse" />
             </div>
           </div>
 
           {/* Question */}
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-md">
-            Hey Lanya!
+            Hey 7abibti
           </h1>
           <p className="text-lg md:text-xl text-rose-100 mb-10 leading-relaxed">
             Will you be my Valentine?
@@ -189,7 +186,10 @@ function App() {
               ref={noButtonRef}
               onMouseEnter={moveNoButton}
               onClick={moveNoButton}
-              onTouchStart={moveNoButton}
+              onTouchStart={(e) => {
+                e.preventDefault();
+                moveNoButton();
+              }}
               className="bg-slate-600 hover:bg-slate-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 absolute"
               style={{
                 transform: `translate(${noPosition.x}px, ${noPosition.y}px)`,
@@ -244,7 +244,7 @@ function App() {
             opacity: 0;
           }
         }
-        
+
         @keyframes heartbeat {
           0%, 100% {
             transform: scale(1);
@@ -262,7 +262,7 @@ function App() {
             transform: scale(1);
           }
         }
-        
+
         @keyframes confetti {
           0% {
             transform: translateY(0) rotate(0deg);
@@ -273,7 +273,7 @@ function App() {
             opacity: 0;
           }
         }
-        
+
         @keyframes fade-in {
           from {
             opacity: 0;
@@ -284,19 +284,19 @@ function App() {
             transform: translateY(0);
           }
         }
-        
+
         .animate-float {
           animation: float linear infinite;
         }
-        
+
         .animate-heartbeat {
           animation: heartbeat 1.5s ease-in-out infinite;
         }
-        
+
         .animate-confetti {
           animation: confetti linear infinite;
         }
-        
+
         .animate-fade-in {
           animation: fade-in 0.5s ease-out;
         }
