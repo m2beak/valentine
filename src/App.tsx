@@ -10,6 +10,7 @@ function App() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const noMessages = [
+    // TODO: CUSTOMIZE ME - Change these messages to whatever you want!
     "Nice try! 😏",
     "Too slow! 💨",
     "Missed me! 🎯",
@@ -100,6 +101,9 @@ function App() {
         <div className="text-center z-10 animate-fade-in">
           <div className="mb-8">
             <Sparkles className="w-20 h-20 text-yellow-300 mx-auto animate-bounce" />
+
+            {/* TODO: CUSTOMIZE ME - Add your own celebration GIF or picture here! */}
+            {/* <img src="/celebration.gif" alt="Celebration" className="w-48 h-48 mx-auto mt-4 rounded-lg object-cover" /> */}
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
             She Said YES! 🎉
@@ -147,6 +151,7 @@ function App() {
           {/* Header with heart */}
           <div className="mb-8">
             <div className="relative inline-block">
+              {/* TODO: CUSTOMIZE ME - Change src="/heart.svg" to your own image (e.g., "/my-photo.jpg") */}
               <img
                 src="/heart.svg"
                 alt="Heart"
