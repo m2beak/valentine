@@ -20,29 +20,47 @@ function App() {
     "Hell No",
     "Better Catch me",
     "Stop Insisting",
-    "JUST FUCKING SAY YES",
+    "Can you stop this ?",
   ];
 
   const moveNoButton = () => {
-    if (!containerRef.current) return;
+    if (!noButtonRef.current || !containerRef.current) return;
 
+    // Get actual button dimensions (handling variable text length)
+    const { width: buttonWidth, height: buttonHeight } = noButtonRef.current.getBoundingClientRect();
     const container = containerRef.current.getBoundingClientRect();
-    const buttonWidth = 120;
-    const buttonHeight = 50;
 
     // Calculate safe area (keep button within container)
-    const maxX = container.width - buttonWidth - 40;
-    const maxY = container.height - buttonHeight - 40;
+    // Reduce movement range on mobile to keep it clickable
+    const padding = 20;
+    const maxX = container.width - buttonWidth - padding;
+    const maxY = container.height - buttonHeight - padding;
 
-    // Generate random position
-    const newX = Math.random() * maxX - maxX / 2;
-    const newY = Math.random() * maxY - maxY / 2;
+    let newX, newY;
+    let attempts = 0;
+    const maxAttempts = 50;
+
+    // Try to find a position that isn't too close to the center (Yes button)
+    do {
+      newX = Math.random() * maxX - maxX / 2;
+      newY = Math.random() * maxY - maxY / 2;
+      attempts++;
+
+      // Minimum distance from center checks
+      // 0,0 is roughly the center where the Yes button is
+      // We want to avoid a 100x100 area in the center
+      const inForbiddenZone = Math.abs(newX) < 80 && Math.abs(newY) < 60;
+
+      if (!inForbiddenZone) break;
+    } while (attempts < maxAttempts);
 
     setNoPosition({ x: newX, y: newY });
     setNoClickCount(prev => prev + 1);
 
-    // Make YES button slightly bigger each time
-    setButtonSize(prev => Math.min(prev + 0.15, 1.8));
+    // Make YES button slightly bigger each time, but cap it lower on mobile
+    const isMobile = window.innerWidth < 768;
+    const maxSize = isMobile ? 1.5 : 1.8;
+    setButtonSize(prev => Math.min(prev + (isMobile ? 0.1 : 0.15), maxSize));
   };
 
   const handleYesClick = () => {
@@ -188,6 +206,7 @@ function App() {
               onClick={moveNoButton}
               onTouchStart={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 moveNoButton();
               }}
               className="bg-slate-600 hover:bg-slate-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 absolute"
@@ -199,7 +218,7 @@ function App() {
               {noClickCount > 0 && noClickCount <= noMessages.length
                 ? noMessages[noClickCount - 1]
                 : noClickCount > noMessages.length
-                  ? "Just YES! 😤"
+                  ? "Just FUCKING SAY YES"
                   : "NO"
               }
             </button>
